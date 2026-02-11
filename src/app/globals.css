@@ -1,26 +1,344 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ======================================================
+   INSIGHTBOARD — Design Tokens
+   Swiss International Typographic Style
+   Clean blue accent · DM Sans · Grid discipline
+   ====================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces — warm paper-like whites */
+  --background: #F7F7F5;
+  --foreground: #1A1A1A;
+  --surface: #FFFFFF;
+  --surface-hover: #F2F1EE;
+
+  /* Borders — warm, quiet */
+  --border: #E4E2DD;
+  --border-focus: #0066FF;
+
+  /* Typography — high contrast, ink-like */
+  --text-primary: #1A1A1A;
+  --text-secondary: #5F5E5A;
+  --text-tertiary: #9F9E99;
+
+  /* Accent — Confident Swiss blue */
+  --accent: #0066FF;
+  --accent-hover: #0052CC;
+  --accent-light: #EBF2FF;
+
+  /* Semantic */
+  --danger: #E5484D;
+  --danger-hover: #D13438;
+  --success: #30A46C;
+  --warning: #E5A000;
+
+  /* Elevation — warm, diffuse */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.02);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.06);
+  --shadow-xl: 0 8px 24px rgba(0,0,0,0.06), 0 20px 48px rgba(0,0,0,0.08);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Canvas */
+  --dot-color: #D5D3CE;
 }
+
+/* Dark mode */
+.dark {
+  --background: #111113;
+  --foreground: #EDEDEF;
+  --surface: #19191B;
+  --surface-hover: #232326;
+
+  --border: #2C2C30;
+  --border-focus: #4D94FF;
+
+  --text-primary: #EDEDEF;
+  --text-secondary: #8B8B8E;
+  --text-tertiary: #55555A;
+
+  --accent: #4D94FF;
+  --accent-hover: #6BABFF;
+  --accent-light: #0D1F3C;
+
+  --danger: #FF6369;
+  --danger-hover: #E5484D;
+  --success: #3DD68C;
+  --warning: #FFD60A;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.35);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,0.4);
+
+  --dot-color: #2C2C30;
+}
+
+/* ======================================================
+   TAILWIND THEME MAPPING
+   ====================================================== */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-focus: var(--border-focus);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-dot: var(--dot-color);
+  --font-sans: var(--font-dm-sans);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ======================================================
+   BASE — Swiss discipline
+   ====================================================== */
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100vh;
+  letter-spacing: -0.011em;
+}
+
+/* ======================================================
+   SCROLLBAR — minimal
+   ====================================================== */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* ======================================================
+   POST-IT TRANSITIONS
+   ====================================================== */
+
+.post-it-transition {
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s ease,
+              opacity 0.2s ease,
+              background-color 0.4s ease;
+}
+
+.post-it-transition.dragging,
+.dragging {
+  transition: box-shadow 0.2s ease;
+}
+
+.post-it-transition.clustering {
+  transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s ease,
+              opacity 0.3s ease,
+              background-color 0.4s ease;
+}
+
+/* ======================================================
+   CANVAS
+   ====================================================== */
+
+.canvas-container {
+  cursor: grab;
+}
+.canvas-container:active {
+  cursor: grabbing;
+}
+.canvas-container.dragging-postit {
+  cursor: default;
+}
+
+.cluster-boundary {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
+}
+
+.dark .cluster-boundary {
+  background: rgba(77,148,255,0.06);
+}
+
+.selection-box {
+  border: 1.5px solid var(--accent);
+  background: rgba(0, 102, 255, 0.06);
+  pointer-events: none;
+}
+
+.dark .selection-box {
+  background: rgba(77, 148, 255, 0.12);
+}
+
+/* ======================================================
+   DIALOGS & OVERLAYS
+   ====================================================== */
+
+.dialog-overlay {
+  animation: fadeIn 0.15s ease;
+}
+.dialog-content {
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Only animate opacity + scale; Tailwind handles centering via translate */
+@keyframes slideUp {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-gentle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.processing-pulse {
+  animation: pulse-gentle 1.5s ease-in-out infinite;
+}
+
+.tooltip-content {
+  animation: tooltipIn 0.1s ease;
+}
+@keyframes tooltipIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======================================================
+   PANEL ANIMATIONS
+   ====================================================== */
+
+.left-panel-animate {
+  animation: leftPanelSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes leftPanelSlideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.right-panel-animate {
+  animation: panelSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes panelSlideIn {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ======================================================
+   REPORT
+   ====================================================== */
+
+.report-block {
+  padding: 2px 0;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.report-block:hover {
+  background-color: var(--surface-hover);
+}
+
+.report-block-active {
+  background-color: rgba(0, 102, 255, 0.03);
+}
+
+.dark .report-block-active {
+  background-color: rgba(77, 148, 255, 0.08);
+}
+
+.report-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  font-family: inherit;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.report-textarea::placeholder {
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+.report-markdown > *:first-child {
+  margin-top: 0;
+}
+.report-markdown > *:last-child {
+  margin-bottom: 0;
+}
+
+.add-block-menu {
+  animation: addBlockFade 0.15s ease;
+}
+
+@keyframes addBlockFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.report-block-handle {
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.download-menu {
+  animation: dropdownIn 0.12s ease;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
