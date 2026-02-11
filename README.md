@@ -1,8 +1,8 @@
-# Figma Research
+# Cursor Research
 
-**AI-powered qualitative research analysis tool for UX researchers.**
+**AI-powered qualitative research analysis tool for researchers and PMs.**
 
-Figma Research transforms raw qualitative data — interview transcripts, survey responses, field notes — into organized, actionable insights. It combines a visual canvas of sticky notes with AI-powered analysis, semantic search (RAG), and a full report editor.
+Cursor Research transforms raw qualitative data — interview transcripts, survey responses, field notes — into organized, actionable insights. It combines a visual canvas of sticky notes with AI-powered analysis, semantic search (RAG), and a full report editor.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
 ![React](https://img.shields.io/badge/React-19-blue)

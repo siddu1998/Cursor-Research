@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Figma Research",
+  title: "Cursor Research",
   description: "AI-powered qualitative research analysis tool for UX researchers",
 };
 
